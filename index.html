@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Fredoka+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <title>Tic tac toe</title>
+</head>
+<body>
+<div class="container">
+  <div class="description">
+    <h1 class="player-choice-header">which one you'll choose?</h1>
+    <div class="x-or-o"><span class='x'>X</span><span class="or"> or </span><span class='o'>O</span></div>
+    <button class="new-game-button">Start A New Game</button>
+  </div>
+
+  <div class="game-div">
+
+    <div class="board-header">
+        <div class="sound"><img class="sound-icon" src="img/32px-Speaker_Icon.svg.png" alt=""></div>
+        <div class="which-turn-div">
+          <div class="player-x current-player">Player <span class='x x__small'>X</span></div>
+          <div class="player-o current-player">Player <span class='o o__small'>O</span></div>
+        </div>
+      </div>
+
+    <div class="game-board">
+    </div>
+
+    <div class="board-footer">
+      <div class="change-board-size">
+        <p class="choose-squares-number-div">Choose a number of rows</p>
+          <select id="select" class="select">
+            <option selected value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+      </div>
+      <button class="against-computer-button"><i class="fa fa-child"></i>&nbsp;vs&nbsp;<i class="fa fa-desktop"></i></button>
+    </div>
+    </div>
+</div>
+<script src="main.js">
+
+</script>
+</body>
+</html>

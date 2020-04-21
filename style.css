@@ -1,0 +1,180 @@
+.container {
+  width: 80vw;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 16px;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 35vw;
+}
+
+.player-choice-header {
+  color: #4C6986;
+  font-size: 4rem;
+  font-weight: 800;
+  text-align: center;
+  margin-top: 70px;
+}
+
+span {
+  font-size: 6rem;
+  font-family: 'Fredoka One', cursive;
+}
+
+.x-or-o {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 130px;
+}
+
+.x {
+  color: #3A89D5;
+  cursor: pointer;
+}
+
+.or {
+  display: inline-block;
+  font-family: 'Nunito Sans', sans-serif;
+  color: #B5BCC8;
+  font-size: 2rem;
+  align-self: center;
+  margin: auto 20px;
+}
+
+.o {
+  color: #39BCD4;
+  cursor: pointer;
+}
+
+.new-game-button {
+  width: 230px;
+  height: 70px;
+  border: 2px solid #4C6986;
+  border-radius: 40px;
+  background: white;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 1.2rem;
+  color: #4C6986;
+  cursor: pointer;
+}
+
+.new-game-button:hover {
+  background: #4C6986;
+  color: white;
+}
+
+.board-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.sound {
+  align-self: flex-end;
+  cursor: pointer;
+}
+
+.which-turn-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.player-x, .player-o {
+  /* border-bottom: 1px solid #B5BCC8; */
+  width: 50%;
+  color: #B5BCC8;
+  font-size: 1.5rem;
+}
+
+.current-player.player-x {
+  border-bottom: 4px solid #3A89D5;
+}
+
+.current-player.player-o {
+  border-bottom: 4px solid #39BCD4;
+}
+
+.x__small, .o__small {
+  font-size: 2.5rem;
+  vertical-align: middle;
+  margin: 0 5px;
+}
+
+.game-board {
+  width: 400px;
+  height: 400px;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.game-board::after {
+  content: "";
+  position: absolute;
+  width: 396px;
+  height: 396px;
+  border: 2px solid white;
+}
+
+.square {
+  width: auto;
+  border: 1px solid rgba(57, 188, 212, 0.6);
+}
+
+
+.board-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.change-board-size {
+  display: flex;
+  flex-direction: row;
+}
+
+.choose-squares-number-div {
+  color: #B5BCC8;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.select {
+  position: relative;
+  height: 25px;
+  margin-left: 5px;
+  top: 15px;
+  color: #3A89D5;
+  font-weight: 700;
+  border-width: 1px;
+  border-style: dotted;
+  border-color: transparent transparent #3A89D5 transparent;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.against-computer-button {
+  width: 100px;
+  height: 40px;
+  border: 2px solid #4C6986;
+  border-radius: 40px;
+  background: white;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 1.1rem;
+  color: #4C6986;
+  cursor: pointer;
+  margin: auto 0;
+}
+
+.against-computer-button:hover {
+  background: #4C6986;
+  color: white;
+}
