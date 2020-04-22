@@ -23,9 +23,10 @@
   margin-top: 70px;
 }
 
-span {
+.letter {
   font-size: 6rem;
   font-family: 'Fredoka One', cursive;
+  cursor: pointer;
 }
 
 .x-or-o {
@@ -36,7 +37,11 @@ span {
 
 .x {
   color: #3A89D5;
-  cursor: pointer;
+}
+
+.cell {
+  padding-left: 19%;
+  padding-top: 4%;
 }
 
 .or {
@@ -50,7 +55,6 @@ span {
 
 .o {
   color: #39BCD4;
-  cursor: pointer;
 }
 
 .new-game-button {
@@ -117,17 +121,20 @@ span {
   grid-template-columns: 1fr 1fr 1fr;
 }
 
-.game-board::after {
+.game-board::before {
   content: "";
   position: absolute;
   width: 396px;
   height: 396px;
   border: 2px solid white;
+  z-index: 1;
 }
 
 .square {
   width: auto;
   border: 1px solid rgba(57, 188, 212, 0.6);
+  z-index: 2;
+  cursor: pointer;
 }
 
 

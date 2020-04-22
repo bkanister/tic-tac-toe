@@ -2,9 +2,12 @@
 const select = document.getElementById('select');
 const gameBoard = document.querySelector('.game-board');
 const squares = document.getElementsByClassName('square');
+
 //variables
 let boardArray = [];
+let squaresArray = [];
 let currentPlayer = 'X';
+
 //eventListeners
 document.addEventListener('DOMContentLoaded', setBoard);
 select.addEventListener('change', setBoard);
@@ -15,7 +18,7 @@ function setBoard() {
   gameBoard.innerHTML = '';
   let squareCount = select.value ** 2;
     for (let i = 0; i < squareCount; i++) {
-      let div = `<div class="square square__${i}"></div>`;
+      let div = `<div class="letter square cell square__${i}"></div>`;
       gameBoard.insertAdjacentHTML('beforeend', div);
       boardArray.push('');
     }
@@ -29,24 +32,37 @@ function setBoard() {
   gameBoard.style.gridTemplateColumns = cols;
 
   squaresArray = Array.from(squares);
+  squaresArray.forEach(item => {
+    item.addEventListener('click', handleTurn)
+  });
 
   render();
+  window.fitText(document.querySelectorAll(".square"), 0.13);
 }
 
 
 function render() {
-  boardArray.forEach(function(mark, index){
+  boardArray.forEach(function(mark, index) {
     squaresArray[index].textContent = mark;
+
+      return (mark === 'X') ? squaresArray[index].classList.add('x') : (mark === 'O') ? squaresArray[index].classList.add('o') : null;
   });
 }
 
-function handleTurn(square) {
-console.log('turn')
-  let squareIndex = squaresArray.findIndex(function(squareFromArray) {
-    return squareFromArray === square;
+
+function handleTurn(event) {
+  if (currentPlayer === 'X') {
+    document.querySelector('.player-x').classList.remove('current-player');
+    document.querySelector('.player-o').classList.add('current-player');
+  } else if (currentPlayer === 'O') {
+    document.querySelector('.player-x').classList.add('current-player');
+    document.querySelector('.player-o').classList.remove('current-player');
+  }
+  let squareIndex = squaresArray.findIndex(function(square) {
+    return square === event.target;
   })
-  // console.log(squareIndex)
   boardArray[squareIndex] = currentPlayer;
-  // console.log(boardArray);
+  squaresArray[squareIndex].removeEventListener('click', handleTurn);
+  currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
   render()
 }
