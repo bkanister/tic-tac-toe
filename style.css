@@ -119,15 +119,32 @@
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr;
+  z-index: 1;
+  position: relative;
 }
 
+/* ::before and ::after are for the white border around the board */
 .game-board::before {
   content: "";
   position: absolute;
-  width: 396px;
-  height: 396px;
-  border: 2px solid white;
-  z-index: 1;
+  top: -1px;
+  right: -2px;
+  width: 404px;
+  height: 404px;
+  background: white;
+  clip-path: polygon(0% 0%, 0% 100%, 1% 100%, 1% 1%, 99% 1%, 99% 100%, 100% 100%, 100% 0%);
+  z-index: 5;
+}
+
+.game-board::after {
+  content: "";
+  position: absolute;
+  top: 398px;
+  right: -2px;
+  width: 404px;
+  height: 4px;
+  background: white;
+  z-index: 5;
 }
 
 .square {
@@ -136,7 +153,6 @@
   z-index: 2;
   cursor: pointer;
 }
-
 
 .board-footer {
   display: flex;
