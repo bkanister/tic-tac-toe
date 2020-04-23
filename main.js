@@ -3,7 +3,9 @@ const select = document.getElementById('select');
 const gameBoard = document.querySelector('.game-board');
 const squares = document.getElementsByClassName('square');
 const newGameButton = document.querySelector('.new-game-button')
-const againstComputerButton = document.querySelector('.against-computer-button');
+const choosePlayerDiv = document.querySelector('.x-or-o');
+const playerX = document.querySelector('.player-x');
+const playerO = document.querySelector('.player-o');
 //variables
 let boardArray = [];
 let squaresArray = [];
@@ -15,23 +17,27 @@ select.addEventListener('change', setBoard);
 newGameButton.addEventListener('click', startNewGame);
 
 //choose for who you play
-document.querySelector('.x-or-o').addEventListener('click', function(e) {
+choosePlayerDiv.addEventListener('click', function(e) {
+choosePlayerDiv.firstElementChild.classList.remove('infinite');
+choosePlayerDiv.lastElementChild.classList.remove('infinite');
+  squaresArray.forEach(item => {
+    item.addEventListener('click', handleTurn);
+    item.style.cursor = 'pointer';
+  });
+
   if(e.target.classList.contains('x')) {
-    document.querySelector('.player-o').innerHTML = `Player <span class='letter o o__small'><i class="fa fa-desktop"></i></span>`;
-    document.querySelector('.player-x').innerHTML = `Player <span class='letter x x__small'>X</span>`;
+    playerO.innerHTML = `Player <span class='letter o o__small'><i class="fa fa-desktop"></i></span>`;
+    playerX.innerHTML = `Player <span class='letter x x__small'>X</span>`;
     steps=2;
     currentPlayer = 'X';
     document.querySelector('.player-x').classList.add('current-player');
   } else if(e.target.classList.contains('o')) {
-    document.querySelector('.player-x').innerHTML = `Player <span class='letter x x__small'><i class="fa fa-desktop"></i></span>`;
-    document.querySelector('.player-o').innerHTML = `Player <span class='letter o o__small'>O</span>`;
+    playerX.innerHTML = `Player <span class='letter x x__small'><i class="fa fa-desktop"></i></span>`;
+    playerO.innerHTML = `Player <span class='letter o o__small'>O</span>`;
     steps=1;
     currentPlayer = 'X';
     computerTurn();
   }
-
-  console.log(currentPlayer)
-  console.log(steps)
 })
 
 //functions
@@ -54,11 +60,9 @@ function setBoard() {
   gameBoard.style.gridTemplateColumns = cols;
 
   squaresArray = Array.from(squares);
-  squaresArray.forEach(item => {
-    item.addEventListener('click', function() {
-      !currentPlayer ? null : handleTurn(event);
-    })
-  });
+  // squaresArray.forEach(item => {
+  //   item.addEventListener('click', handleTurn);
+  // });
   render();
   window.fitText(document.querySelectorAll(".square"), 0.13);
 }
@@ -74,11 +78,11 @@ function render() {
 
 function handleTurn(event) {
   if (currentPlayer === 'X') {
-    document.querySelector('.player-x').classList.remove('current-player');
-    document.querySelector('.player-o').classList.add('current-player');
+    playerX.classList.remove('current-player');
+    playerO.classList.add('current-player');
   } else if (currentPlayer === 'O') {
-    document.querySelector('.player-x').classList.add('current-player');
-    document.querySelector('.player-o').classList.remove('current-player');
+    playerX.classList.add('current-player');
+    playerO.classList.remove('current-player');
   }
   let squareIndex = squaresArray.findIndex(function(square) {
     return square === event.target;
@@ -95,7 +99,16 @@ function handleTurn(event) {
 
 
 function startNewGame() {
-  location.reload();
+  steps=0;
+  let squaresArray = [];
+  let currentPlayer = '';
+  choosePlayerDiv.firstElementChild.classList.add('infinite');
+  choosePlayerDiv.lastElementChild.classList.add('infinite');
+  playerX.innerHTML = `Player <span class='letter x x__small'>X</span>`;
+  playerO.innerHTML = `Player <span class='letter o o__small'>O</span>`;
+  playerX.classList.remove('current-player');
+  playerO.classList.remove('current-player');
+  setBoard();
 }
 
 function getRandomTurn() {
@@ -114,29 +127,27 @@ function getRandomTurn() {
 function computerTurn() {
     let randomIndex = getRandomTurn();
     if (currentPlayer === 'O') {
-      document.querySelector('.player-x').classList.remove('current-player');
-      document.querySelector('.player-o').classList.add('current-player');
+      playerX.classList.remove('current-player');
+      playerO.classList.add('current-player');
       boardArray[randomIndex] = 'O';
       squaresArray[randomIndex].removeEventListener('click', handleTurn);
       setTimeout(() => {
-        document.querySelector('.player-x').classList.add('current-player');
-        document.querySelector('.player-o').classList.remove('current-player');
+        playerX.classList.add('current-player');
+        playerO.classList.remove('current-player');
         render()
       }, 1500);
     }
     if (currentPlayer === 'X') {
-      document.querySelector('.player-x').classList.add('current-player');
-      document.querySelector('.player-o').classList.remove('current-player');
+      playerX.classList.add('current-player');
+      playerO.classList.remove('current-player');
       boardArray[randomIndex] = 'X';
       squaresArray[randomIndex].removeEventListener('click', handleTurn);
       setTimeout(() => {
-        document.querySelector('.player-x').classList.remove('current-player');
-        document.querySelector('.player-o').classList.add('current-player');
+        playerX.classList.remove('current-player');
+        playerO.classList.add('current-player');
         render()
       }, 1500);
     }
     steps++;
     currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-    console.log(currentPlayer)
-    console.log(steps)
 }

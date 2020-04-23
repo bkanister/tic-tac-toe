@@ -152,7 +152,7 @@
   width: auto;
   border: 1px solid rgba(57, 188, 212, 0.6);
   z-index: 2;
-  cursor: pointer;
+  cursor: default;
 }
 
 .board-footer {
@@ -183,22 +183,4 @@
   border-style: dotted;
   border-color: transparent transparent #3A89D5 transparent;
   font-family: 'Nunito Sans', sans-serif;
-}
-
-.against-computer-button {
-  width: 100px;
-  height: 40px;
-  border: 2px solid #4C6986;
-  border-radius: 40px;
-  background: white;
-  font-family: 'Nunito Sans', sans-serif;
-  font-size: 1.1rem;
-  color: #4C6986;
-  cursor: pointer;
-  margin: auto 0;
-}
-
-.against-computer-button:hover {
-  background: #4C6986;
-  color: white;
 }

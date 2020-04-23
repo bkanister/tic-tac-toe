@@ -8,13 +8,14 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Fredoka+One&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="animate.css">
   <title>Tic tac toe</title>
 </head>
 <body>
 <div class="container">
   <div class="description">
     <h1 class="player-choice-header">which one you'll choose?</h1>
-    <div class="x-or-o"><span id="choose-x" class='letter x'>X</span><span class="or"> or </span><span id="choose-o" class='letter o'>O</span></div>
+    <div class="x-or-o"><span class='animated pulse infinite letter x'>X</span><span class="or"> or </span><span class='animated infinite pulse letter o'>O</span></div>
     <button class="new-game-button">Start A New Game</button>
   </div>
 
@@ -40,7 +41,6 @@
             <option value="5">5</option>
           </select>
       </div>
-      <button class="against-computer-button"><i class="fa fa-child"></i>&nbsp;vs&nbsp;<i class="fa fa-desktop"></i></button>
     </div>
     </div>
 </div>
