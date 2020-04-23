@@ -3,21 +3,37 @@ const select = document.getElementById('select');
 const gameBoard = document.querySelector('.game-board');
 const squares = document.getElementsByClassName('square');
 const newGameButton = document.querySelector('.new-game-button')
-const chooseX = document.getElementById('choose-x');
-const chooseO = document.getElementById('choose-o');
 const againstComputerButton = document.querySelector('.against-computer-button');
 //variables
 let boardArray = [];
 let squaresArray = [];
-let currentPlayer = 'X';
-let playWithAI = false;
+let currentPlayer = '';
+let steps = 0;
 //eventListeners
 document.addEventListener('DOMContentLoaded', setBoard);
 select.addEventListener('change', setBoard);
 newGameButton.addEventListener('click', startNewGame);
-chooseX.addEventListener('click', playForX);
-chooseO.addEventListener('click', playForO);
-againstComputerButton.addEventListener('click', setBoardForAI);
+
+//choose for who you play
+document.querySelector('.x-or-o').addEventListener('click', function(e) {
+  if(e.target.classList.contains('x')) {
+    document.querySelector('.player-o').innerHTML = `Player <span class='letter o o__small'><i class="fa fa-desktop"></i></span>`;
+    document.querySelector('.player-x').innerHTML = `Player <span class='letter x x__small'>X</span>`;
+    steps=2;
+    currentPlayer = 'X';
+    document.querySelector('.player-x').classList.add('current-player');
+  } else if(e.target.classList.contains('o')) {
+    document.querySelector('.player-x').innerHTML = `Player <span class='letter x x__small'><i class="fa fa-desktop"></i></span>`;
+    document.querySelector('.player-o').innerHTML = `Player <span class='letter o o__small'>O</span>`;
+    steps=1;
+    currentPlayer = 'X';
+    computerTurn();
+  }
+
+  console.log(currentPlayer)
+  console.log(steps)
+})
+
 //functions
 function setBoard() {
   boardArray = [];
@@ -39,9 +55,10 @@ function setBoard() {
 
   squaresArray = Array.from(squares);
   squaresArray.forEach(item => {
-    item.addEventListener('click', handleTurn)
+    item.addEventListener('click', function() {
+      !currentPlayer ? null : handleTurn(event);
+    })
   });
-
   render();
   window.fitText(document.querySelectorAll(".square"), 0.13);
 }
@@ -50,9 +67,8 @@ function setBoard() {
 function render() {
   boardArray.forEach(function(mark, index) {
     squaresArray[index].textContent = mark;
-
       return (mark === 'X') ? squaresArray[index].classList.add('x') : (mark === 'O') ? squaresArray[index].classList.add('o') : null;
-  });
+  })
 }
 
 
@@ -69,60 +85,17 @@ function handleTurn(event) {
   })
   boardArray[squareIndex] = currentPlayer;
   squaresArray[squareIndex].removeEventListener('click', handleTurn);
+  steps += 1;
+  render();
   currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-  render()
-
-  if (playWithAI === true) {
-    let randomIndex = getRandomTurn();
-    if (currentPlayer === 'O' && boardArray.includes('X')) {
-      document.querySelector('.player-x').classList.remove('current-player');
-      document.querySelector('.player-o').classList.add('current-player');
-      boardArray[randomIndex]='O';
-      currentPlayer = 'X';
-      setTimeout(() => {
-        document.querySelector('.player-x').classList.add('current-player');
-        document.querySelector('.player-o').classList.remove('current-player');
-        render()
-      }, 2000);
-
-    }
-  };
+  if(steps % 2 !== 0) {
+    computerTurn();
+  }
 }
 
 
 function startNewGame() {
   location.reload();
-}
-
-function playForX() {
-  if (currentPlayer === 'X') return;
-  let playersDiv = document.querySelector('.which-turn-div');
-  playersDiv.firstElementChild.remove();
-  playersDiv.insertAdjacentHTML('beforeend', `<div class="player-o">Player <span class='letter o o__small'>O</span></div>`)
-  document.querySelector('.player-o').classList.remove('current-player');
-  document.querySelector('.player-x').classList.add('current-player');
-  currentPlayer = 'X';
-}
-
-function playForO() {
-  if (currentPlayer === 'O') return;
-  let playersDiv = document.querySelector('.which-turn-div');
-  playersDiv.lastElementChild.remove();
-  playersDiv.insertAdjacentHTML('afterbegin', `<div class="player-o">Player <span class='letter o o__small'>O</span></div>`)
-  document.querySelector('.player-o').classList.add('current-player');
-  document.querySelector('.player-x').classList.remove('current-player');
-  currentPlayer = 'O';
-}
-
-function setBoardForAI() {
-if (currentPlayer === 'X') {
-  document.querySelector('.player-o').innerHTML = `Player <span class='letter o o__small'><i class="fa fa-desktop"></i></span>`;
-}
-if (currentPlayer === 'O') {
-    document.querySelector('.player-x').innerHTML = `Player <span class='letter x x__small'><i class="fa fa-desktop"></i></span>`;
-}
-playWithAI = true;
-// gameWithAI(currentPlayer);
 }
 
 function getRandomTurn() {
@@ -137,18 +110,33 @@ function getRandomTurn() {
   return emptyCells[randomIndex];
 }
 
-// function gameWithAI(currentPlayer) {
-//   let randomIndex = getRandomTurn();
-//   if (currentPlayer === 'O' && boardArray.includes('X')) {
-//     boardArray[randomIndex]='O';
-//     render();
-//   }
-// }
 
-//
-// let squareIndex = squaresArray.findIndex(function(square) {
-//   return square === event.target;
-// })
-// boardArray[squareIndex] = currentPlayer;
-// squaresArray[squareIndex].removeEventListener('click', handleTurn);
-// currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+function computerTurn() {
+    let randomIndex = getRandomTurn();
+    if (currentPlayer === 'O') {
+      document.querySelector('.player-x').classList.remove('current-player');
+      document.querySelector('.player-o').classList.add('current-player');
+      boardArray[randomIndex] = 'O';
+      squaresArray[randomIndex].removeEventListener('click', handleTurn);
+      setTimeout(() => {
+        document.querySelector('.player-x').classList.add('current-player');
+        document.querySelector('.player-o').classList.remove('current-player');
+        render()
+      }, 1500);
+    }
+    if (currentPlayer === 'X') {
+      document.querySelector('.player-x').classList.add('current-player');
+      document.querySelector('.player-o').classList.remove('current-player');
+      boardArray[randomIndex] = 'X';
+      squaresArray[randomIndex].removeEventListener('click', handleTurn);
+      setTimeout(() => {
+        document.querySelector('.player-x').classList.remove('current-player');
+        document.querySelector('.player-o').classList.add('current-player');
+        render()
+      }, 1500);
+    }
+    steps++;
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    console.log(currentPlayer)
+    console.log(steps)
+}
