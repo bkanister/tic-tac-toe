@@ -27,6 +27,11 @@
   font-size: 6rem;
   font-family: 'Fredoka One', cursive;
   cursor: pointer;
+  filter:brightness(100%);
+}
+
+.letter:hover {
+  filter:brightness(80%);
 }
 
 .x-or-o {
@@ -67,11 +72,16 @@
   font-size: 1.2rem;
   color: #4C6986;
   cursor: pointer;
+  outline: none;
 }
 
 .new-game-button:hover {
   background: #4C6986;
   color: white;
+}
+
+.new-game-button:active {
+  opacity: 0.8;
 }
 
 .board-header {
