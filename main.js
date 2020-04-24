@@ -91,6 +91,7 @@ function handleTurn(event) {
   squaresArray[squareIndex].removeEventListener('click', handleTurn);
   steps += 1;
   render();
+  checkWin(currentPlayer);
   currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
   if(steps % 2 !== 0) {
     computerTurn();
@@ -110,8 +111,20 @@ function startNewGame() {
   playerO.classList.remove('current-player');
   setBoard();
 }
+//
+// function getRandomTurn() {
+//   let emptyCells = [];
+//   emptyCells = boardArray.map(function(item, index) {
+//     if (item === '') {
+//       return index;
+//     }
+//   })
+//   emptyCells = emptyCells.filter(item => item !== undefined);
+//   let randomIndex = Math.floor(Math.random() * emptyCells.length);
+//   return emptyCells[randomIndex];
+// }
 
-function getRandomTurn() {
+function getEmptyCells(boardArray) {
   let emptyCells = [];
   emptyCells = boardArray.map(function(item, index) {
     if (item === '') {
@@ -119,18 +132,99 @@ function getRandomTurn() {
     }
   })
   emptyCells = emptyCells.filter(item => item !== undefined);
-  let randomIndex = Math.floor(Math.random() * emptyCells.length);
-  return emptyCells[randomIndex];
+  return emptyCells;
+}
+
+
+
+
+
+
+function winning(board, player){
+  if(
+    (board[0] == player && board[1] == player && board[2] == player) ||
+    (board[3] == player && board[4] == player && board[5] == player) ||
+    (board[6] == player && board[7] == player && board[8] == player) ||
+    (board[0] == player && board[3] == player && board[6] == player) ||
+    (board[1] == player && board[4] == player && board[7] == player) ||
+    (board[2] == player && board[5] == player && board[8] == player) ||
+    (board[0] == player && board[4] == player && board[8] == player) ||
+    (board[2] == player && board[4] == player && board[6] == player)
+    ) {
+      return true;
+      } else {
+      return false;
+      }
+}
+
+
+function minimax(newBoard, player){
+
+  let availSpots = getEmptyCells(boardArray);
+
+  if (winning(newBoard, 'X')){
+    return {score: -10};
+  }
+  else if (winning(newBoard, 'O')){
+    return {score: 10};
+  }
+  else if (availSpots.length === 0){
+    return {score:0};
+  }
+
+  let moves = [];
+
+
+
+  for (let i = 0; i < availSpots.length; i++){
+    let move = {};
+  	move.index = availSpots[i];
+    newBoard[availSpots[i]] = player;
+    if (player === 'O'){
+      var result = minimax(newBoard, 'X');
+      move.score = result.score;
+    }
+    if (player === 'X') {
+      var result = minimax(newBoard, 'O');
+      move.score = result.score;
+    }
+
+
+    newBoard[availSpots[i]] = '';
+    moves.push(move);
+
+  }
+  var bestMove;
+  if(player === 'O'){
+    var bestScore = -10000;
+    for(let i = 0; i < moves.length; i++){
+      if(moves[i].score > bestScore){
+        bestScore = moves[i].score;
+        bestMove = i;
+      }
+    }
+  } else {
+    var bestScore = 10000;
+    for(let i = 0; i < moves.length; i++){
+      if(moves[i].score < bestScore){
+        bestScore = moves[i].score;
+        bestMove = i;
+      }
+    }
+  }
+  return moves[bestMove];
 }
 
 
 function computerTurn() {
-    let randomIndex = getRandomTurn();
     if (currentPlayer === 'O') {
       playerX.classList.remove('current-player');
       playerO.classList.add('current-player');
-      boardArray[randomIndex] = 'O';
-      squaresArray[randomIndex].removeEventListener('click', handleTurn);
+
+      let idx = minimax(boardArray, currentPlayer).index;
+      boardArray[idx] = 'O';
+
+      squaresArray[idx].removeEventListener('click', handleTurn);
       setTimeout(() => {
         playerX.classList.add('current-player');
         playerO.classList.remove('current-player');
@@ -140,8 +234,10 @@ function computerTurn() {
     if (currentPlayer === 'X') {
       playerX.classList.add('current-player');
       playerO.classList.remove('current-player');
-      boardArray[randomIndex] = 'X';
-      squaresArray[randomIndex].removeEventListener('click', handleTurn);
+
+      let idx = minimax(boardArray, currentPlayer).index;
+      boardArray[idx] = 'X';
+      squaresArray[idx].removeEventListener('click', handleTurn);
       setTimeout(() => {
         playerX.classList.remove('current-player');
         playerO.classList.add('current-player');
@@ -149,5 +245,18 @@ function computerTurn() {
       }, 1500);
     }
     steps++;
+    checkWin(currentPlayer);
     currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+}
+
+
+function checkWin(player) {
+  if (winning(boardArray, player)) {
+    document.querySelector('.player-choice-header').textContent = `${player} wins!`;
+    newGameButton.textContent = 'Play again!';
+  }
+  if (getEmptyCells(boardArray).length === 0) {
+    document.querySelector('.player-choice-header').textContent = `That's a tie!`;
+    newGameButton.textContent = 'Play again!';
+  }
 }
