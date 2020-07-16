@@ -7,6 +7,7 @@ import {
   select,
   squares} from "./constants/constants.js";
 import {winning} from "./checkWinner.js";
+import {minimax} from "./minimax.js";
 
 let boardArray = [];
 let squaresArray = [];
@@ -19,8 +20,8 @@ newGameButton.addEventListener('click', startNewGame);
 
 //choose for who you play
 choosePlayerDiv.addEventListener('click', function(e) {
-choosePlayerDiv.firstElementChild.classList.remove('infinite');
-choosePlayerDiv.lastElementChild.classList.remove('infinite');
+      choosePlayerDiv.firstElementChild.classList.remove('animate__infinite');
+      choosePlayerDiv.lastElementChild.classList.remove('animate__infinite');
   squaresArray.forEach(item => {
     item.addEventListener('click', handleTurn);
     item.style.cursor = 'pointer';
@@ -61,9 +62,6 @@ function setBoard() {
   gameBoard.style.gridTemplateColumns = cols;
 
   squaresArray = Array.from(squares);
-  // squaresArray.forEach(item => {
-  //   item.addEventListener('click', handleTurn);
-  // });
   render();
   window.fitText(document.querySelectorAll(".square"), 0.13);
 }
@@ -112,18 +110,6 @@ function startNewGame() {
   playerO.classList.remove('current-player');
   setBoard();
 }
-//
-// function getRandomTurn() {
-//   let emptyCells = [];
-//   emptyCells = boardArray.map(function(item, index) {
-//     if (item === '') {
-//       return index;
-//     }
-//   })
-//   emptyCells = emptyCells.filter(item => item !== undefined);
-//   let randomIndex = Math.floor(Math.random() * emptyCells.length);
-//   return emptyCells[randomIndex];
-// }
 
 function getEmptyCells(boardArray) {
   let emptyCells = [];
@@ -134,66 +120,6 @@ function getEmptyCells(boardArray) {
   })
   emptyCells = emptyCells.filter(item => item !== undefined);
   return emptyCells;
-}
-
-
-
-
-function minimax(newBoard, player){
-
-  let availSpots = getEmptyCells(boardArray);
-
-  if (winning(newBoard, 'X')){
-    return {score: -10};
-  }
-  else if (winning(newBoard, 'O')){
-    return {score: 10};
-  }
-  else if (availSpots.length === 0){
-    return {score:0};
-  }
-
-  let moves = [];
-
-
-
-  for (let i = 0; i < availSpots.length; i++){
-    let move = {};
-  	move.index = availSpots[i];
-    newBoard[availSpots[i]] = player;
-    if (player === 'O'){
-      let result = minimax(newBoard, 'X');
-      move.score = result.score;
-    }
-    if (player === 'X') {
-      let result = minimax(newBoard, 'O');
-      move.score = result.score;
-    }
-
-
-    newBoard[availSpots[i]] = '';
-    moves.push(move);
-
-  }
-  let bestMove;
-  if(player === 'O'){
-    let bestScore = -10000;
-    for(let i = 0; i < moves.length; i++){
-      if(moves[i].score > bestScore){
-        bestScore = moves[i].score;
-        bestMove = i;
-      }
-    }
-  } else {
-    let bestScore = 10000;
-    for(let i = 0; i < moves.length; i++){
-      if(moves[i].score < bestScore){
-        bestScore = moves[i].score;
-        bestMove = i;
-      }
-    }
-  }
-  return moves[bestMove];
 }
 
 

@@ -1,0 +1,24 @@
+{
+  "name": "tic-tac-toe",
+  "version": "1.0.0",
+  "description": "![](tic-tac-toe-demo.png)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bkanister/tic-tac-toe.git"
+  },
+  "author": "bkanister",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bkanister/tic-tac-toe/issues"
+  },
+  "homepage": "https://github.com/bkanister/tic-tac-toe#readme",
+  "dependencies": {
+    "animate.css": "^4.1.0",
+    "fittext": "^1.0.1"
+  }
+}
