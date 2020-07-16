@@ -1,12 +1,13 @@
-//constants
-const select = document.getElementById('select');
-const gameBoard = document.querySelector('.game-board');
-const squares = document.getElementsByClassName('square');
-const newGameButton = document.querySelector('.new-game-button')
-const choosePlayerDiv = document.querySelector('.x-or-o');
-const playerX = document.querySelector('.player-x');
-const playerO = document.querySelector('.player-o');
-//variables
+import {
+  choosePlayerDiv,
+  gameBoard,
+  newGameButton,
+  playerO,
+  playerX,
+  select,
+  squares} from "./constants/constants.js";
+import {winning} from "./checkWinner.js";
+
 let boardArray = [];
 let squaresArray = [];
 let currentPlayer = '';
@@ -25,13 +26,13 @@ choosePlayerDiv.lastElementChild.classList.remove('infinite');
     item.style.cursor = 'pointer';
   });
 
-  if(e.target.classList.contains('x')) {
+  if (e.target.classList.contains('x')) {
     playerO.innerHTML = `Player <span class='letter o o__small'><i class="fa fa-desktop"></i></span>`;
     playerX.innerHTML = `Player <span class='letter x x__small'>X</span>`;
     steps=2;
     currentPlayer = 'X';
     document.querySelector('.player-x').classList.add('current-player');
-  } else if(e.target.classList.contains('o')) {
+  } else if (e.target.classList.contains('o')) {
     playerX.innerHTML = `Player <span class='letter x x__small'><i class="fa fa-desktop"></i></span>`;
     playerO.innerHTML = `Player <span class='letter o o__small'>O</span>`;
     steps=1;
@@ -138,26 +139,6 @@ function getEmptyCells(boardArray) {
 
 
 
-
-
-function winning(board, player){
-  if(
-    (board[0] == player && board[1] == player && board[2] == player) ||
-    (board[3] == player && board[4] == player && board[5] == player) ||
-    (board[6] == player && board[7] == player && board[8] == player) ||
-    (board[0] == player && board[3] == player && board[6] == player) ||
-    (board[1] == player && board[4] == player && board[7] == player) ||
-    (board[2] == player && board[5] == player && board[8] == player) ||
-    (board[0] == player && board[4] == player && board[8] == player) ||
-    (board[2] == player && board[4] == player && board[6] == player)
-    ) {
-      return true;
-      } else {
-      return false;
-      }
-}
-
-
 function minimax(newBoard, player){
 
   let availSpots = getEmptyCells(boardArray);
@@ -181,11 +162,11 @@ function minimax(newBoard, player){
   	move.index = availSpots[i];
     newBoard[availSpots[i]] = player;
     if (player === 'O'){
-      var result = minimax(newBoard, 'X');
+      let result = minimax(newBoard, 'X');
       move.score = result.score;
     }
     if (player === 'X') {
-      var result = minimax(newBoard, 'O');
+      let result = minimax(newBoard, 'O');
       move.score = result.score;
     }
 
@@ -194,9 +175,9 @@ function minimax(newBoard, player){
     moves.push(move);
 
   }
-  var bestMove;
+  let bestMove;
   if(player === 'O'){
-    var bestScore = -10000;
+    let bestScore = -10000;
     for(let i = 0; i < moves.length; i++){
       if(moves[i].score > bestScore){
         bestScore = moves[i].score;
@@ -204,7 +185,7 @@ function minimax(newBoard, player){
       }
     }
   } else {
-    var bestScore = 10000;
+    let bestScore = 10000;
     for(let i = 0; i < moves.length; i++){
       if(moves[i].score < bestScore){
         bestScore = moves[i].score;
