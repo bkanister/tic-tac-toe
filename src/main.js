@@ -7,26 +7,25 @@ import {
   select,
   squares} from "./constants/constants.js";
 import {winning} from "./checkWinner.js";
-import {minimax} from "./minimax.js";
+import {minimax, getEmptyCells} from "./minimax.js";
 
 let boardArray = [];
 let squaresArray = [];
 let currentPlayer = '';
 let steps = 0;
-//eventListeners
-document.addEventListener('DOMContentLoaded', setBoard);
-select.addEventListener('change', setBoard);
-newGameButton.addEventListener('click', startNewGame);
 
-//choose for who you play
-choosePlayerDiv.addEventListener('click', function(e) {
-      choosePlayerDiv.firstElementChild.classList.remove('animate__infinite');
-      choosePlayerDiv.lastElementChild.classList.remove('animate__infinite');
+
+const chooseXorO = (e) => {
+  //remove letters animation
+  choosePlayerDiv.firstElementChild.classList.remove('animate__infinite');
+  choosePlayerDiv.lastElementChild.classList.remove('animate__infinite');
+
+  //activate board
   squaresArray.forEach(item => {
     item.addEventListener('click', handleTurn);
     item.style.cursor = 'pointer';
   });
-
+//adapt board to player's choice
   if (e.target.classList.contains('x')) {
     playerO.innerHTML = `Player <span class='letter o o__small'><i class="fa fa-desktop"></i></span>`;
     playerX.innerHTML = `Player <span class='letter x x__small'>X</span>`;
@@ -40,10 +39,10 @@ choosePlayerDiv.addEventListener('click', function(e) {
     currentPlayer = 'X';
     computerTurn();
   }
-})
+}
 
-//functions
-function setBoard() {
+//make board adaptive from 3 to 5
+const setBoard = () => {
   boardArray = [];
   gameBoard.innerHTML = '';
   let squareCount = select.value ** 2;
@@ -60,22 +59,25 @@ function setBoard() {
   }
   gameBoard.style.gridTemplateRows = rows;
   gameBoard.style.gridTemplateColumns = cols;
-
   squaresArray = Array.from(squares);
   render();
   window.fitText(document.querySelectorAll(".square"), 0.13);
 }
 
 
-function render() {
-  boardArray.forEach(function(mark, index) {
+const render = () => {
+  boardArray.forEach((mark, index) => {
     squaresArray[index].textContent = mark;
-      return (mark === 'X') ? squaresArray[index].classList.add('x') : (mark === 'O') ? squaresArray[index].classList.add('o') : null;
+      return (mark === 'X')
+          ? squaresArray[index].classList.add('x')
+          : (mark === 'O')
+              ? squaresArray[index].classList.add('o')
+              : null;
   })
 }
 
 
-function handleTurn(event) {
+const handleTurn = (event) => {
   if (currentPlayer === 'X') {
     playerX.classList.remove('current-player');
     playerO.classList.add('current-player');
@@ -83,7 +85,7 @@ function handleTurn(event) {
     playerX.classList.add('current-player');
     playerO.classList.remove('current-player');
   }
-  let squareIndex = squaresArray.findIndex(function(square) {
+  let squareIndex = squaresArray.findIndex(square => {
     return square === event.target;
   })
   boardArray[squareIndex] = currentPlayer;
@@ -92,16 +94,14 @@ function handleTurn(event) {
   render();
   checkWin(currentPlayer);
   currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-  if(steps % 2 !== 0) {
+  if (steps % 2 !== 0) {
     computerTurn();
   }
 }
 
 
-function startNewGame() {
+const startNewGame = () => {
   steps=0;
-  let squaresArray = [];
-  let currentPlayer = '';
   choosePlayerDiv.firstElementChild.classList.add('infinite');
   choosePlayerDiv.lastElementChild.classList.add('infinite');
   playerX.innerHTML = `Player <span class='letter x x__small'>X</span>`;
@@ -111,19 +111,8 @@ function startNewGame() {
   setBoard();
 }
 
-function getEmptyCells(boardArray) {
-  let emptyCells = [];
-  emptyCells = boardArray.map(function(item, index) {
-    if (item === '') {
-      return index;
-    }
-  })
-  emptyCells = emptyCells.filter(item => item !== undefined);
-  return emptyCells;
-}
 
-
-function computerTurn() {
+const computerTurn = () => {
     if (currentPlayer === 'O') {
       playerX.classList.remove('current-player');
       playerO.classList.add('current-player');
@@ -157,7 +146,7 @@ function computerTurn() {
 }
 
 
-function checkWin(player) {
+const checkWin = (player) => {
   if (winning(boardArray, player)) {
     document.querySelector('.player-choice-header').textContent = `${player} wins!`;
     newGameButton.textContent = 'Play again!';
@@ -167,3 +156,8 @@ function checkWin(player) {
     newGameButton.textContent = 'Play again!';
   }
 }
+
+document.addEventListener('DOMContentLoaded', setBoard);
+select.addEventListener('change', setBoard);
+newGameButton.addEventListener('click', startNewGame);
+choosePlayerDiv.addEventListener('click', chooseXorO)

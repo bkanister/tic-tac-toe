@@ -1,11 +1,13 @@
+
+
 .container {
-  width: 80vw;
   margin: auto;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
   font-family: 'Nunito Sans', sans-serif;
   font-size: 16px;
+  gap: 55px;
 }
 
 .description {
@@ -21,6 +23,7 @@
   font-weight: 800;
   text-align: center;
   margin-top: 70px;
+  width: 440px;
 }
 
 .letter {
@@ -100,6 +103,7 @@
   justify-content: space-between;
   margin-top: 50px;
   margin-bottom: 20px;
+  width: 350px;
 }
 
 .player-x, .player-o {
@@ -134,7 +138,7 @@
   position: relative;
 }
 
-/* ::before and ::after are for the white border around the board */
+/* ::before and ::after are for the white border around the board*/
 .game-board::before {
   content: "";
   position: absolute;
@@ -193,4 +197,144 @@
   border-style: dotted;
   border-color: transparent transparent #3A89D5 transparent;
   font-family: 'Nunito Sans', sans-serif;
+}
+
+
+@media (max-width: 900px){
+  .container {
+    width: 375px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    gap: 20px;
+  }
+
+  .player-choice-header {
+    display: none;
+  }
+
+  .sound {
+   display: none;
+  }
+
+  .x-or-o {
+    display: flex;
+    margin-bottom: 30px;
+  }
+
+  .description {
+    display: flex;
+    justify-self: center;
+    width: 350px;
+  }
+
+  .letter {
+    font-size: 4rem;
+    font-family: 'Fredoka One', cursive;
+    cursor: pointer;
+    filter:brightness(100%);
+  }
+
+  .new-game-button {
+    width: 140px;
+    height: 50px;
+    border-radius: 30px;
+    font-size: 0.8rem;
+  }
+
+  .board-header {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    margin: 0;
+  }
+
+  .which-turn-div {
+    display: flex;
+    flex-direction: row;
+    margin-top: 50px;
+    margin-bottom: 20px;
+  }
+
+  .player-x, .player-o {
+    /* border-bottom: 1px solid #B5BCC8; */
+    width: 50%;
+    color: #B5BCC8;
+    font-size: 1.5rem;
+  }
+
+  .current-player.player-x {
+    border-bottom: 4px solid #3A89D5;
+  }
+
+  .current-player.player-o {
+    border-bottom: 4px solid #39BCD4;
+  }
+
+  .x__small, .o__small {
+    font-size: 1rem;
+    vertical-align: middle;
+    margin: 0 5px;
+    cursor: auto;
+  }
+
+  .game-board {
+    max-width: 350px;
+    max-height: 350px;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    z-index: 1;
+    position: relative;
+  }
+
+  /* ::before and ::after are for the white border around the board*/
+  .game-board::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    right: -2px;
+    width: 352px;
+    height: 350px;
+    background: white;
+    clip-path: polygon(0% 0%, 0% 100%, 1% 100%, 1% 1%, 99% 1%, 99% 100%, 100% 100%, 100% 0%);
+    z-index: 5;
+  }
+
+  .game-board::after {
+    content: "";
+    position: absolute;
+    top: 348px;
+    right: -2px;
+    width: 352px;
+    height: 4px;
+    background: white;
+    z-index: 5;
+  }
+
+  .square {
+    width: auto;
+    border: 1px solid rgba(57, 188, 212, 0.6);
+    z-index: 2;
+    cursor: default;
+  }
+
+  .board-footer {
+    display: none
+  }
+
+  .change-board-size {
+    display: none
+  }
+
+  .choose-squares-number-div {
+    display: none;
+  }
+
+  .select {
+    display: none;
+  }
+
 }

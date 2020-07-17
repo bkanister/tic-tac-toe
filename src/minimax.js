@@ -12,7 +12,6 @@ export function getEmptyCells(boardArray) {
 }
 
 export const minimax = (newBoard, player) => {
-debugger
     let availSpots = getEmptyCells(newBoard);
 
     if (winning(newBoard, 'X')){
